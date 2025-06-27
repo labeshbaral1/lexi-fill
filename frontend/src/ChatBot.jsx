@@ -25,15 +25,12 @@ export default function ChatBot({
   const currentPlaceholder = placeholders[currentFieldIdx];
   const currentQuestion = questions?.find(q => q.id === currentPlaceholder?.id)?.question || currentPlaceholder?.label;
 
-  // Get completed placeholders for history
   const completedPlaceholders = placeholders.slice(0, currentFieldIdx);
 
   useEffect(() => {
     if (editingFieldId) {
-      // If editing a specific field, set its current value
       setInput(placeholderValues[editingFieldId] || '');
     } else if (currentPlaceholder) {
-      // If on current field, set its current value
       setInput(placeholderValues[currentPlaceholder.id] || '');
     }
     
@@ -42,7 +39,6 @@ export default function ChatBot({
     }
   }, [currentFieldIdx, isComplete, currentPlaceholder, placeholderValues, editingFieldId]);
 
-  // Auto-scroll to bottom when new items are added to history
   useEffect(() => {
     if (chatHistoryRef.current) {
       chatHistoryRef.current.scrollTop = chatHistoryRef.current.scrollHeight;
@@ -52,11 +48,9 @@ export default function ChatBot({
   const handleSend = () => {
     if (input.trim()) {
       if (editingFieldId) {
-        // Update existing field
         onPlaceholderChange(editingFieldId, input.trim());
         setEditingFieldId(null);
       } else if (currentPlaceholder) {
-        // Submit current field
         onSubmit(input.trim());
       }
       setInput('');
@@ -65,12 +59,10 @@ export default function ChatBot({
 
   const handleSkipField = () => {
     if (editingFieldId) {
-      // Skip the field being edited
       onSkip(editingFieldId);
       setEditingFieldId(null);
       setInput('');
     } else if (currentPlaceholder && onSkip) {
-      // Skip current field
       onSkip(currentPlaceholder.id);
       setInput('');
     }
@@ -80,7 +72,6 @@ export default function ChatBot({
     const value = e.target.value;
     setInput(value);
     
-    // Only update real-time if we're on the current field (not editing)
     if (!editingFieldId && currentPlaceholder && onPlaceholderChange) {
       onPlaceholderChange(currentPlaceholder.id, value);
     }
@@ -126,7 +117,7 @@ export default function ChatBot({
       </div>
 
       <div className="chatbot-body">
-        {/* Chat History - Show if there are completed items or we're editing */}
+        {/* Chat History */}
         {(completedPlaceholders.length > 0 || editingFieldId) && (
           <div className="chat-history" ref={chatHistoryRef}>
             {completedPlaceholders.map((placeholder) => {
@@ -200,16 +191,19 @@ export default function ChatBot({
         {(!isComplete || editingFieldId) && (
           <div className="chatbot-input-section">
             <div className="chatbot-input-row">
-              <input
-                ref={inputRef}
-                type="text"
-                value={input}
-                onChange={handleInputChange}
-                onKeyDown={handleKeyDown}
-                className="chatbot-input-field"
-                placeholder={editingFieldId ? "Update your answer..." : "Type your answer..."}
-                disabled={inputDisabled}
-              />
+              <div className="input-with-hint">
+                <input
+                  ref={inputRef}
+                  type="text"
+                  value={input}
+                  onChange={handleInputChange}
+                  onKeyDown={handleKeyDown}
+                  className="chatbot-input-field"
+                  placeholder={editingFieldId ? "Update your answer..." : "Type your answer..."}
+                  disabled={inputDisabled}
+                />
+                <span className="input-enter-hint">Enter</span>
+              </div>
               {editingFieldId && (
                 <button 
                   onClick={cancelEdit} 

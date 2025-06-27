@@ -3,6 +3,7 @@ import axios from 'axios'
 import './App.css'
 import ChatBot from './ChatBot'
 import robotIcon from './assets/robot.png'
+import lexiIcon from './assets/logo.svg'
 
 function App() {
   const [uploaded, setUploaded] = useState(false)
@@ -108,10 +109,6 @@ function App() {
     setCurrentFieldIdx(idx => idx + 1);
   };
 
-  const handleChatBack = () => {
-    setCurrentFieldIdx(idx => (idx > 0 ? idx - 1 : 0));
-  };
-
   const handleRemoveField = (fieldId) => {
     setSkippedFields(prev => new Set(prev).add(fieldId));
     setPlaceholderValues(prev => ({
@@ -128,17 +125,7 @@ function App() {
       [placeholderId]: value
     }))
   }
-
-  const handleFocus = (placeholderId) => {
-    setActiveId(placeholderId)
-    setTimeout(() => {
-      const el = document.getElementById(`preview-${placeholderId}`)
-      if (el && previewRef.current) {
-        el.scrollIntoView({ behavior: 'smooth', block: 'center' })
-      }
-    }, 100)
-  }
-
+  
   const getCompletedTemplateWithAnchors = () => {
     let html = replacedTemplate
     placeholders.forEach(({ id }) => {
@@ -152,7 +139,6 @@ function App() {
       } else if (value && value.trim() !== '') {
         highlightClass = 'filled'
       }
-      // No highlighting for untouched fields only
       
       html = html.replace(
         new RegExp(`<<${id}>>`, 'g'),
@@ -160,21 +146,6 @@ function App() {
       )
     })
     return html
-  }
-
-  const handleClearAll = () => {
-    setFile(null)
-    setReplacedTemplate('')
-    setPlaceholders([])
-    setPlaceholderValues({})
-    setSkippedFields(new Set())
-    setError('')
-    setSuccess('')
-    setActiveId(null)
-    setCurrentPlaceholderId(null)
-    setCurrentFieldIdx(0)
-    const fileInput = document.getElementById('file-input')
-    if (fileInput) fileInput.value = ''
   }
 
   const downloadCompletedDocument = () => {
@@ -194,12 +165,10 @@ function App() {
     document.body.removeChild(a)
     URL.revokeObjectURL(url)
     
-    // Set download completed state
     setDownloadCompleted(true)
   }
 
   const handleUploadAnother = () => {
-    // Reset everything back to default state
     setUploaded(false)
     setDownloadCompleted(false)
     setFile(null)
@@ -223,10 +192,7 @@ function App() {
         <div className="header-content">
           <div className="logo-section">
             <div className="logo-icon">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M14 2H6C4.895 2 4 2.895 4 4V20C4 21.105 4.895 22 6 22H18C19.105 22 20 21.105 20 20V8L14 2Z" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                <path d="M14 2V8H20" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-              </svg>
+            <img src={lexiIcon} alt="AI" width={20} height={20} />
             </div>
             <span className="logo-text">Lexi-Fill</span>
           </div>
@@ -275,7 +241,7 @@ function App() {
               {loading ? 'Processing...' : 'Upload & Process'}
             </button>
 
-            {/* File Requirements */}
+            {/* File Requirements Content*/}
             <div className="file-requirements">
               <h4>File Requirements:</h4>
               <div className="requirement-item">
@@ -335,7 +301,7 @@ function App() {
           :
         <div className="document-workspace">
           <div className="main-content">
-            {/* Left: Document Info Header + Document Preview (vertical stack) */}
+            {/* Left: Document Info Header + Document Preview */}
             <div className="left-doc-column">
               <div className="document-header">
                 <div className="document-info">
@@ -375,7 +341,7 @@ function App() {
                 )}
               </div>
             </div>
-            {/* Right: ChatBot - now fills vertical space */}
+            {/* Right: ChatBot */}
             <div className="chatbot-panel-vertical">
               <ChatBot
                 questions={questions}
