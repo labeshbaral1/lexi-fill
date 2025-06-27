@@ -7,7 +7,7 @@
     "start": "node server.js",
     "dev": "nodemon server.js",
     "postinstall": "pip install -r parser/requirements.txt",
-    "dev:with-python": "npm run postinstall && npm run dev"
+    "dev:with-python": "npm run postinstall && npm run start"
 
   },
   "dependencies": {

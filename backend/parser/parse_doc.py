@@ -11,7 +11,6 @@ from docx import Document
 from pathlib import Path
 from collections import defaultdict
 
-# ---------- Utils ----------
 
 def normalize_id(label):
     return re.sub(r'[^a-z0-9]+', '_', label.lower()).strip('_')
@@ -50,8 +49,6 @@ def extract_inline_label(line, start_pos=0):
     
     return None
 
-
-# ---------- Core ----------
 
 def extract_text_from_docx(file_path):
     doc = Document(file_path)
@@ -99,7 +96,7 @@ def find_placeholders(text):
     lines = text.splitlines()
     seen_ids = set()
     results = []
-    replaced_lines = lines.copy()  # Create a copy to modify
+    replaced_lines = lines.copy()  
 
     bracket_patterns = [
         (re.compile(r'\$?\[\s*([^\[\]]{1,}?)\s*\]'), '[]'),                            # $[ _____ ] or $[ \t ]
@@ -109,22 +106,18 @@ def find_placeholders(text):
         # (re.compile(r'__\s*([^_]*?[^\s_]{2,}[^_]*?)\s*__'), '__ __'),               # __ PLACEHOLDER __
     ]
 
-    # placeholder_ct = 0
 
     for idx, line in enumerate(lines):
-        current_line = replaced_lines[idx]  # Work with the current modified line
+        current_line = replaced_lines[idx] 
         
-        # Collect all matches for this line first (in forward order)
         line_matches = []
         for pattern, raw_fmt in bracket_patterns:
             matches = list(pattern.finditer(current_line))
             for match_obj in matches:
                 line_matches.append((match_obj, raw_fmt))
         
-        # Sort matches by position (left to right)
         line_matches.sort(key=lambda x: x[0].start())
         
-        # Process placeholders in forward order for results
         for match_obj, raw_fmt in line_matches:
             match_text = match_obj.group(1) if match_obj.groups() else match_obj.group(0)
             placeholder_start = match_obj.start()
@@ -146,9 +139,7 @@ def find_placeholders(text):
                     "type": infer_type(raw, label),
                     "line_num": idx
                 })
-                # placeholder_ct += 1
         
-        # Now do replacements in reverse order to maintain positions
         for match_obj, raw_fmt in reversed(line_matches):
             match_text = match_obj.group(1) if match_obj.groups() else match_obj.group(0)
             placeholder_start = match_obj.start()
@@ -173,7 +164,6 @@ def find_placeholders(text):
                     + current_line[match_obj.end():]
                 )
             
-            # Update current_line for next iteration
             current_line = replaced_lines[idx]
 
     label_colon_pattern = re.compile(r'^\s*([A-Za-z][\w\s&\-]{0,40}[a-z][\w\s&\-]*):(?=\s*$|\t)')
@@ -181,12 +171,10 @@ def find_placeholders(text):
     current_section = None
 
     for idx, line in enumerate(lines):
-        # Update section if line is a heading
         heading_match = section_heading_pattern.match(line)
         if heading_match:
             current_section = normalize_id(heading_match.group(1).strip())
         
-        # Look for label: fields
         for label_match in re.finditer(label_colon_pattern, line):    
             label = label_match.group(1).strip()
             base_id = normalize_id(label)
