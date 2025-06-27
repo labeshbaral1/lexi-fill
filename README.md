@@ -2,7 +2,7 @@
 
 A web application that allows users to upload `.docx` legal documents, detect dynamic placeholders, and fill them via a React UI.
 
-##Features
+## Features
 
 - **Document Upload**: Upload `.docx` files through a modern web interface
 - **Placeholder Detection**: Automatically detects placeholders like `[Investor Name]`, `{{Date}}`, `((Amount))`, etc.
