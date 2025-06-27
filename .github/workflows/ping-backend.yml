@@ -10,4 +10,4 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Curl backend health check
-        run: curl https://lexi-fill.onrender.com/sanity
+        run: curl -sSf https://lexi-fill.onrender.com/sanity && echo "SUCCESS" || echo "FAILED"
