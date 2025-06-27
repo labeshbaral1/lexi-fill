@@ -2,32 +2,49 @@
 
 A web application that allows users to upload `.docx` legal documents, detect dynamic placeholders, and fill them via a React UI.
 
-## 🚀 Features
+##Features
 
 - **Document Upload**: Upload `.docx` files through a modern web interface
 - **Placeholder Detection**: Automatically detects placeholders like `[Investor Name]`, `{{Date}}`, `((Amount))`, etc.
-- **Interactive Filling**: Fill placeholders through a clean, responsive UI
+- **Interactive Filling**: Fill placeholders through Lexi-AI, a clean, responsive chatbot powered by a llm
 - **Real-time Preview**: See the document content as you work
-- **Modern Stack**: Built with React, Node.js, Express, and Python
 
-## 🛠️ Tech Stack
+## Live Demo
+
+1. **Open your browser** and go to `https://lexi-fill.vercel.app`
+
+2. **Upload a document:**
+   - Click "Choose File" and select a `.docx` file
+   - Click "Upload & Parse" to process the document
+
+3. **Fill placeholders:**
+   - The app will automatically detect placeholders in your document
+   - Enter values for each placeholder in the input fields or nullify a field if not needed
+   - See the document content preview below
+
+4. **Supported placeholder formats:**
+   - `[Placeholder Name]`
+   - `{{placeholder_name}}`
+   - `((placeholder))`
+   - `__placeholder__`
+   - `Label:Placeholder`
+
+## Tech Stack
 
 ### Frontend
-- **React** (Vite) - Modern React development
-- **Tailwind CSS** - Utility-first CSS framework
+- **React** (Vite)
 - **Axios** - HTTP client for API calls
 
 ### Backend
 - **Node.js** - JavaScript runtime
 - **Express** - Web framework
 - **Multer** - File upload handling
-- **CORS** - Cross-origin resource sharing
 
 ### Document Processing
 - **Python** - Document parsing
 - **python-docx** - DOCX file manipulation
 
-## 📁 Project Structure
+## Project Structure
 
 ```
 lexi-fill/
@@ -40,86 +57,13 @@ lexi-fill/
 │   └── uploads/               # Uploaded files (auto-created)
 ├── frontend/
 │   ├── src/
-│   │   ├── App.jsx            # Main React component
-│   │   ├── App.css            # Custom styles
-│   │   └── index.css          # Tailwind CSS
+│   │   ├── App.jsx            # React component for App
+│   │   └── ChatModal.jsx      # React component for chatbot
 │   ├── package.json           # Frontend dependencies
-│   ├── vite.config.js         # Vite configuration
-│   └── tailwind.config.js     # Tailwind configuration
+│   └── vite.config.js         # Vite configuration
 └── README.md
 ```
 
-## 🚀 Quick Start
-
-### Prerequisites
-
-- **Node.js** (v16 or higher)
-- **Python** (v3.7 or higher)
-- **npm** or **yarn**
-
-### Backend Setup
-
-1. **Navigate to backend directory:**
-   ```bash
-   cd backend
-   ```
-
-2. **Install Node.js dependencies:**
-   ```bash
-   npm install
-   ```
-
-3. **Install Python dependencies:**
-   ```bash
-   cd parser
-   pip install -r requirements.txt
-   cd ..
-   ```
-
-4. **Start the backend server:**
-   ```bash
-   npm run dev
-   ```
-   
-   The server will start on `http://localhost:5000`
-
-### Frontend Setup
-
-1. **Navigate to frontend directory:**
-   ```bash
-   cd frontend
-   ```
-
-2. **Install dependencies:**
-   ```bash
-   npm install
-   ```
-
-3. **Start the development server:**
-   ```bash
-   npm run dev
-   ```
-   
-   The frontend will start on `http://localhost:5173`
-
-## 📖 Usage
-
-1. **Open your browser** and go to `http://localhost:5173`
-
-2. **Upload a document:**
-   - Click "Choose File" and select a `.docx` file
-   - Click "Upload & Parse" to process the document
-
-3. **Fill placeholders:**
-   - The app will automatically detect placeholders in your document
-   - Enter values for each placeholder in the input fields
-   - See the document content preview below
-
-4. **Supported placeholder formats:**
-   - `[Placeholder Name]`
-   - `{{placeholder_name}}`
-   - `((placeholder))`
-   - `__placeholder__`
 
 ## 🔧 Development
 
@@ -138,7 +82,7 @@ lexi-fill/
 ### API Endpoints
 
 - `POST /upload` - Upload and parse DOCX file
-- `GET /health` - Health check endpoint
+- `GET /sanity` - Health check endpoint
 
 ## 🐛 Troubleshooting
 
