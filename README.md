@@ -64,64 +64,11 @@ lexi-fill/
 └── README.md
 ```
 
-
-## 🔧 Development
-
-### Backend Development
-
-- **File uploads** are stored in `backend/uploads/`
-- **Python script** processes documents and returns JSON
-- **CORS** is enabled for frontend communication
-
-### Frontend Development
-
-- **Vite** provides fast hot module replacement
-- **Tailwind CSS** for styling
-- **Proxy configuration** for API calls during development
-
-### API Endpoints
+## API Endpoints
 
 - `POST /upload` - Upload and parse DOCX file
 - `GET /sanity` - Health check endpoint
 
-## 🐛 Troubleshooting
-
-### Common Issues
-
-1. **Python not found:**
-   - Ensure Python 3 is installed and accessible via `python3`
-   - Install python-docx: `pip install python-docx`
-
-2. **CORS errors:**
-   - Backend CORS is configured for `http://localhost:5173`
-   - Check that both servers are running
-
-3. **File upload fails:**
-   - Ensure the file is a valid `.docx` format
-   - Check file size (10MB limit)
-   - Verify `backend/uploads/` directory exists
-
-### Debug Mode
-
-- **Backend**: Use `npm run dev` for auto-restart on changes
-- **Frontend**: Vite provides hot reload by default
-
-## 📝 Next Steps (Day 2)
-
-- [ ] Document generation with filled placeholders
-- [ ] Download functionality for completed documents
-- [ ] Document preview with placeholder highlighting
-- [ ] Save/load document templates
-- [ ] User authentication and document history
-
-## 🤝 Contributing
-
-1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Test thoroughly
-5. Submit a pull request
-
-## 📄 License
+## License
 
 This project is licensed under the MIT License.
