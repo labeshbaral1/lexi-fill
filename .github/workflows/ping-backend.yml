@@ -1,0 +1,13 @@
+name: Keep Render Backend Warm
+
+on:
+  schedule:
+    - cron: '*/10 * * * *'  
+  workflow_dispatch:       
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Curl backend health check
+        run: curl https://lexi-fill.onrender.com/sanity
