@@ -11,6 +11,8 @@ A web application that allows users to upload `.docx` legal documents, detect dy
 
 ## Live Demo
 
+<img width="1920" height="951" alt="image" src="https://github.com/user-attachments/assets/c9e17121-9fd0-42b4-ae10-d5cd1a09a271" />
+
 1. **Open your browser** and go to `https://lexi-fill.vercel.app`
 
 2. **Upload a document:**
